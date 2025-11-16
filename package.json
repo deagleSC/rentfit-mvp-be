@@ -48,6 +48,7 @@
     "@types/compression": "^1.7.5",
     "@types/morgan": "^1.9.9",
     "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
@@ -55,4 +56,3 @@
     "prettier": "^3.1.1"
   }
 }
-

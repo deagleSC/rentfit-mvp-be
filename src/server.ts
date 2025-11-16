@@ -7,7 +7,9 @@ import dotenv from 'dotenv';
 import connectDB from './config/database';
 import { getRedisClient } from './config/redis';
 import { errorHandler } from './middleware/errorHandler';
+import { ApiResponseHandler } from './utils/response';
 import routes from './routes';
+import { swaggerUi, swaggerDocument, swaggerOptions } from './swagger/swagger-setup';
 
 // Load environment variables
 dotenv.config();
@@ -25,31 +27,34 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
-  res.status(200).json({
-    status: 'ok',
-    message: 'RentFit API is running',
-    timestamp: new Date().toISOString(),
-  });
+  ApiResponseHandler.success(
+    res,
+    {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    },
+    'RentFit API is running'
+  );
 });
 
 // Root endpoint
 app.get('/', (_req: Request, res: Response) => {
-  res.json({
+  ApiResponseHandler.success(res, {
     message: 'Welcome to RentFit API',
     version: '1.0.0',
     docs: '/api-docs',
   });
 });
 
+// Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, swaggerOptions));
+
 // API routes
 app.use('/api', routes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
-  res.status(404).json({
-    error: 'Not Found',
-    message: `Route ${req.originalUrl} not found`,
-  });
+  ApiResponseHandler.notFound(res, `Route ${req.originalUrl} not found`);
 });
 
 // Error handler
@@ -77,6 +82,7 @@ const startServer = async (): Promise<void> => {
       console.log(`🚀 Server is running on port ${PORT}`);
       console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+      console.log(`📚 API Documentation: http://localhost:${PORT}/api-docs`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { ApiResponseHandler } from '../utils/response';
 
 export interface AppError extends Error {
   statusCode?: number;
@@ -18,13 +19,7 @@ export const errorHandler = (
     console.error('Error:', err);
   }
 
-  res.status(statusCode).json({
-    success: false,
-    error: {
-      message,
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
-    },
-  });
+  ApiResponseHandler.error(res, message, statusCode, undefined, err.stack);
 };
 
 export const asyncHandler = (fn: Function) => {
