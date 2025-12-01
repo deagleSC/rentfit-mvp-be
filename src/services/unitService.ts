@@ -94,7 +94,7 @@ class UnitService {
       throw error;
     }
 
-    const unit = await Unit.findById(id).populate('ownerId', 'firstName lastName email');
+    const unit = await Unit.findById(id);
     if (!unit) {
       const error: any = new Error('Unit not found');
       error.statusCode = 404;
@@ -170,11 +170,7 @@ class UnitService {
 
     // Execute query
     const [units, total] = await Promise.all([
-      Unit.find(query)
-        .populate('ownerId', 'firstName lastName email')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit),
+      Unit.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
       Unit.countDocuments(query),
     ]);
 
@@ -233,4 +229,3 @@ class UnitService {
 }
 
 export default new UnitService();
-

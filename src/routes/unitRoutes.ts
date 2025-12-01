@@ -53,4 +53,3 @@ router.put('/:id', ...updateUnitValidator, handleValidationErrors, updateUnit);
 router.delete('/:id', ...deleteUnitValidator, handleValidationErrors, deleteUnit);
 
 export default router;
-

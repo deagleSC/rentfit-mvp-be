@@ -12,7 +12,7 @@ export interface ISignature {
   name?: string;
   method?: 'esign' | 'otp' | 'manual';
   signedAt?: Date;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
 }
 
 export interface IAgreement extends Document {
@@ -23,10 +23,11 @@ export interface IAgreement extends Document {
   version?: number;
   createdBy?: Schema.Types.ObjectId;
   tenancyId?: Schema.Types.ObjectId;
+  tenantId?: Schema.Types.ObjectId;
   status?: AgreementStatus;
   signers?: ISignature[];
   lastSignedAt?: Date;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,6 +55,7 @@ const AgreementSchema = new Schema<IAgreement>(
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
 
     tenancyId: { type: Schema.Types.ObjectId, ref: 'Tenancy', index: true },
+    tenantId: { type: Schema.Types.ObjectId, ref: 'User', index: true },
     status: {
       type: String,
       enum: ['draft', 'pending_signature', 'signed', 'cancelled'],
@@ -67,6 +69,7 @@ const AgreementSchema = new Schema<IAgreement>(
 );
 
 AgreementSchema.index({ tenancyId: 1 });
+AgreementSchema.index({ tenantId: 1 });
 AgreementSchema.index({ 'signers.userId': 1 });
 
 export default model<IAgreement>('Agreement', AgreementSchema);

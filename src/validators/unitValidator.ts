@@ -37,15 +37,12 @@ export const createUnitValidator: ValidationChain[] = [
     .optional()
     .matches(/^\d{6}$/)
     .withMessage('Please provide a valid 6-digit pincode'),
-  body('geo.type')
-    .optional()
-    .equals('Point')
-    .withMessage('Geo type must be "Point"'),
+  body('geo.type').optional().equals('Point').withMessage('Geo type must be "Point"'),
   body('geo.coordinates')
     .optional()
     .isArray({ min: 2, max: 2 })
     .withMessage('Coordinates must be an array of 2 numbers [longitude, latitude]')
-    .custom((value) => {
+    .custom(value => {
       if (!Array.isArray(value) || value.length !== 2) {
         throw new Error('Coordinates must be an array of 2 numbers');
       }
@@ -58,14 +55,8 @@ export const createUnitValidator: ValidationChain[] = [
       }
       return true;
     }),
-  body('photos')
-    .optional()
-    .isArray()
-    .withMessage('Photos must be an array'),
-  body('photos.*')
-    .optional()
-    .isURL()
-    .withMessage('Each photo must be a valid URL'),
+  body('photos').optional().isArray().withMessage('Photos must be an array'),
+  body('photos.*').optional().isURL().withMessage('Each photo must be a valid URL'),
   body('beds')
     .optional()
     .isInt({ min: 0 })
@@ -116,15 +107,12 @@ export const updateUnitValidator: ValidationChain[] = [
     .optional()
     .matches(/^\d{6}$/)
     .withMessage('Please provide a valid 6-digit pincode'),
-  body('geo.type')
-    .optional()
-    .equals('Point')
-    .withMessage('Geo type must be "Point"'),
+  body('geo.type').optional().equals('Point').withMessage('Geo type must be "Point"'),
   body('geo.coordinates')
     .optional()
     .isArray({ min: 2, max: 2 })
     .withMessage('Coordinates must be an array of 2 numbers [longitude, latitude]')
-    .custom((value) => {
+    .custom(value => {
       if (!Array.isArray(value) || value.length !== 2) {
         throw new Error('Coordinates must be an array of 2 numbers');
       }
@@ -137,14 +125,8 @@ export const updateUnitValidator: ValidationChain[] = [
       }
       return true;
     }),
-  body('photos')
-    .optional()
-    .isArray()
-    .withMessage('Photos must be an array'),
-  body('photos.*')
-    .optional()
-    .isURL()
-    .withMessage('Each photo must be a valid URL'),
+  body('photos').optional().isArray().withMessage('Photos must be an array'),
+  body('photos.*').optional().isURL().withMessage('Each photo must be a valid URL'),
   body('beds')
     .optional()
     .isInt({ min: 0 })
@@ -173,20 +155,13 @@ export const deleteUnitValidator: ValidationChain[] = [
 
 // Validation for query parameters (pagination, filtering)
 export const getUnitsValidator: ValidationChain[] = [
-  query('page')
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer')
-    .toInt(),
+  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer').toInt(),
   query('limit')
     .optional()
     .isInt({ min: 1, max: 100 })
     .withMessage('Limit must be between 1 and 100')
     .toInt(),
-  query('ownerId')
-    .optional()
-    .isMongoId()
-    .withMessage('Please provide a valid owner ID'),
+  query('ownerId').optional().isMongoId().withMessage('Please provide a valid owner ID'),
   query('status')
     .optional()
     .isIn(['vacant', 'occupied', 'maintenance'])
@@ -227,4 +202,3 @@ export const getUnitsValidator: ValidationChain[] = [
     .isLength({ min: 1, max: 100 })
     .withMessage('Search term must be between 1 and 100 characters'),
 ];
-

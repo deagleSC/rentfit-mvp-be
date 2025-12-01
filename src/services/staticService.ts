@@ -236,9 +236,11 @@ class StaticService {
    */
   async createStates(statesData: CreateStateData[]): Promise<IState[]> {
     // Validate all country IDs first
-    const countryIds = [...new Set(statesData.map((s) => s.countryId))];
+    const countryIds = [...new Set(statesData.map(s => s.countryId))];
     const countries = await Country.find({ _id: { $in: countryIds } });
-    const foundCountryIds = new Set(countries.map((c) => c._id.toString()));
+    const foundCountryIds = new Set(
+      countries.map(c => (c._id as { toString: () => string }).toString())
+    );
 
     // Check if all country IDs are valid
     for (const countryId of countryIds) {
@@ -255,7 +257,7 @@ class StaticService {
     }
 
     const states = await State.insertMany(statesData, { ordered: false });
-    return State.find({ _id: { $in: states.map((s) => s._id) } }).populate('countryId', 'name code');
+    return State.find({ _id: { $in: states.map(s => s._id) } }).populate('countryId', 'name code');
   }
 
   /**
@@ -432,9 +434,11 @@ class StaticService {
    */
   async createCities(citiesData: CreateCityData[]): Promise<ICity[]> {
     // Validate all state IDs first
-    const stateIds = [...new Set(citiesData.map((c) => c.stateId))];
+    const stateIds = [...new Set(citiesData.map(c => c.stateId))];
     const states = await State.find({ _id: { $in: stateIds } });
-    const foundStateIds = new Set(states.map((s) => s._id.toString()));
+    const foundStateIds = new Set(
+      states.map(s => (s._id as { toString: () => string }).toString())
+    );
 
     // Check if all state IDs are valid
     for (const stateId of stateIds) {
@@ -451,7 +455,7 @@ class StaticService {
     }
 
     const cities = await City.insertMany(citiesData, { ordered: false });
-    return City.find({ _id: { $in: cities.map((c) => c._id) } }).populate({
+    return City.find({ _id: { $in: cities.map(c => c._id) } }).populate({
       path: 'stateId',
       select: 'name code',
       populate: {
@@ -610,4 +614,3 @@ class StaticService {
 }
 
 export default new StaticService();
-

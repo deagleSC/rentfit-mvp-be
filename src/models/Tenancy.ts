@@ -37,7 +37,7 @@ export interface ITenancy extends Document {
   };
   deposit?: {
     amount?: number;
-    status?: 'held' | 'returned' | 'disputed';
+    status?: 'upcoming' | 'held' | 'returned' | 'disputed';
   };
   payments: IPayment[];
   evidence: IEvidence[];
@@ -91,7 +91,11 @@ const TenancySchema = new Schema<ITenancy>(
 
     deposit: {
       amount: { type: Number, default: 0 },
-      status: { type: String, enum: ['held', 'returned', 'disputed'], default: 'held' },
+      status: {
+        type: String,
+        enum: ['upcoming', 'held', 'returned', 'disputed'],
+        default: 'upcoming',
+      },
     },
 
     payments: { type: [PaymentSchema], default: [] },

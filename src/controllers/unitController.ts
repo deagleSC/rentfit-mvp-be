@@ -81,4 +81,3 @@ export const deleteUnit = asyncHandler(async (req: Request, res: Response) => {
   await unitService.deleteUnit(id);
   ApiResponseHandler.success(res, null, 'Unit deleted successfully');
 });
-

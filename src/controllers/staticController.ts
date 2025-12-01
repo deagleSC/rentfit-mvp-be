@@ -249,4 +249,3 @@ export const deleteCity = asyncHandler(async (req: Request, res: Response) => {
   await staticService.deleteCity(id);
   ApiResponseHandler.success(res, null, 'City deleted successfully');
 });
-

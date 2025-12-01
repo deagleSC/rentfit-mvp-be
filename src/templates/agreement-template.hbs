@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rental Agreement</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Times New Roman', 'Georgia', serif;
+      font-size: 11pt;
+      line-height: 1.7;
+      color: #1a1a1a;
+      padding: 50px 40px;
+      background: #fff;
+      text-align: justify;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+      border-bottom: 3px solid #000;
+      padding-bottom: 25px;
+    }
+    
+    .header h1 {
+      font-size: 22pt;
+      font-weight: bold;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #000;
+    }
+    
+    .header .subtitle {
+      font-size: 14pt;
+      font-weight: bold;
+      margin-top: 8px;
+      color: #333;
+    }
+    
+    .header .legal-note {
+      font-size: 9pt;
+      font-style: italic;
+      margin-top: 10px;
+      color: #555;
+    }
+    
+    .preamble {
+      margin: 30px 0;
+      padding: 20px;
+      background: #f9f9f9;
+      border-left: 4px solid #000;
+      font-size: 10.5pt;
+      text-align: justify;
+    }
+    
+    .preamble strong {
+      font-weight: bold;
+      color: #000;
+    }
+    
+    .parties-section {
+      margin: 35px 0;
+      page-break-inside: avoid;
+    }
+    
+    .parties-grid {
+      display: table;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 15px;
+      margin: 20px 0;
+    }
+    
+    .party-box {
+      display: table-cell;
+      width: 48%;
+      vertical-align: top;
+      padding: 20px;
+      border: 2px solid #000;
+      background: #fff;
+    }
+    
+    .party-title {
+      font-weight: bold;
+      font-size: 12pt;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      text-align: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #000;
+      letter-spacing: 1px;
+    }
+    
+    .party-details {
+      font-size: 10.5pt;
+    }
+    
+    .party-details p {
+      margin: 8px 0;
+      line-height: 1.8;
+    }
+    
+    .party-details strong {
+      font-weight: bold;
+      min-width: 100px;
+      display: inline-block;
+    }
+    
+    .section {
+      margin: 30px 0;
+      page-break-inside: avoid;
+    }
+    
+    .section-title {
+      font-size: 13pt;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      border-bottom: 2px solid #000;
+      padding-bottom: 8px;
+      letter-spacing: 1px;
+      color: #000;
+    }
+    
+    .subsection-title {
+      font-size: 11pt;
+      font-weight: bold;
+      margin: 15px 0 10px 0;
+      text-transform: capitalize;
+      color: #333;
+    }
+    
+    .clause {
+      margin: 12px 0;
+      text-align: justify;
+      line-height: 1.8;
+    }
+    
+    .clause-number {
+      font-weight: bold;
+      margin-right: 8px;
+      color: #000;
+    }
+    
+    .clause-text {
+      text-align: justify;
+    }
+    
+    .clause-text strong {
+      font-weight: bold;
+    }
+    
+    .info-box {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 3px;
+    }
+    
+    .info-box p {
+      margin: 5px 0;
+    }
+    
+    .info-box strong {
+      font-weight: bold;
+      min-width: 140px;
+      display: inline-block;
+    }
+    
+    .signature-section {
+      margin-top: 60px;
+      page-break-inside: avoid;
+    }
+    
+    .signature-grid {
+      display: table;
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 20px;
+      margin: 30px 0;
+    }
+    
+    .signature-box {
+      display: table-cell;
+      width: 45%;
+      vertical-align: top;
+      min-height: 150px;
+    }
+    
+    .signature-line {
+      border-top: 2px solid #000;
+      margin-top: 80px;
+      padding-top: 8px;
+      text-align: center;
+    }
+    
+    .signature-name {
+      font-weight: bold;
+      font-size: 11pt;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+    
+    .signature-role {
+      font-size: 10pt;
+      margin-top: 5px;
+      color: #555;
+    }
+    
+    .signature-date {
+      font-size: 9pt;
+      margin-top: 8px;
+      color: #666;
+    }
+    
+    .witness-section {
+      margin-top: 40px;
+      page-break-inside: avoid;
+    }
+    
+    .witness-box {
+      display: inline-block;
+      width: 45%;
+      margin: 0 2%;
+      vertical-align: top;
+    }
+    
+    .witness-line {
+      border-top: 1px solid #666;
+      margin-top: 60px;
+      padding-top: 5px;
+      text-align: center;
+    }
+    
+    .witness-label {
+      font-size: 9pt;
+      color: #666;
+    }
+    
+    .footer {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      font-size: 9pt;
+      text-align: center;
+      color: #666;
+      font-style: italic;
+    }
+    
+    .legal-notice {
+      margin: 25px 0;
+      padding: 15px;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-left: 4px solid #ffc107;
+      font-size: 9.5pt;
+      text-align: justify;
+    }
+    
+    .legal-notice strong {
+      font-weight: bold;
+      color: #856404;
+    }
+    
+    .page-break {
+      page-break-before: always;
+    }
+    
+    .no-break {
+      page-break-inside: avoid;
+    }
+    
+    @media print {
+      body {
+        padding: 30px 25px;
+      }
+      
+      .page-break {
+        page-break-before: always;
+      }
+      
+      .no-break {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Residential Rental Agreement</h1>
+    {{#if templateName}}
+    <div class="subtitle">{{templateName}}</div>
+    {{/if}}
+    {{#if stateCode}}
+    <div style="margin-top: 8px; font-size: 11pt; font-weight: normal;">State: {{stateCode}}</div>
+    {{/if}}
+    <div class="legal-note">This Agreement is subject to the laws of India and local tenancy regulations</div>
+  </div>
+
+  <div class="preamble no-break">
+    <p><strong>THIS RENTAL AGREEMENT</strong> ("Agreement") is made and entered into on this <strong>{{createdAt}}</strong>, between:</p>
+    <p style="margin-top: 10px;"><strong>LANDLORD/OWNER:</strong> {{tenancy.owner.firstName}} {{tenancy.owner.lastName}}, Email: {{tenancy.owner.email}} (hereinafter referred to as the "Landlord" or "Owner")</p>
+    <p style="margin-top: 10px;"><strong>TENANT:</strong> {{tenancy.tenant.firstName}} {{tenancy.tenant.lastName}}, Email: {{tenancy.tenant.email}} (hereinafter referred to as the "Tenant")</p>
+    <p style="margin-top: 15px; text-align: justify;">WHEREAS, the Landlord is the lawful owner of the property described herein and desires to rent the same to the Tenant, and the Tenant desires to rent the said property from the Landlord on the terms and conditions set forth in this Agreement.</p>
+    <p style="margin-top: 10px; text-align: justify;">NOW, THEREFORE, in consideration of the mutual covenants and agreements contained herein, the parties agree as follows:</p>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">1. Property Description</div>
+    <div class="clause">
+      <p><strong>1.1.</strong> The Landlord hereby agrees to let and the Tenant hereby agrees to take on rent the residential property described as follows:</p>
+      <div class="info-box" style="margin-left: 20px; margin-top: 10px;">
+        {{#if tenancy.unit.title}}
+        <p><strong>Property Name/Unit:</strong> {{tenancy.unit.title}}</p>
+        {{/if}}
+        {{#if tenancy.unit.address}}
+        <p><strong>Property Address:</strong>
+          {{#if tenancy.unit.address.line1}}{{tenancy.unit.address.line1}}{{/if}}
+          {{#if tenancy.unit.address.line2}}, {{tenancy.unit.address.line2}}{{/if}}
+          {{#if tenancy.unit.address.city}}, {{tenancy.unit.address.city}}{{/if}}
+          {{#if tenancy.unit.address.state}}, {{tenancy.unit.address.state}}{{/if}}
+          {{#if tenancy.unit.address.pincode}} - {{tenancy.unit.address.pincode}}{{/if}}
+        </p>
+        {{/if}}
+      </div>
+      <p style="margin-top: 10px;"><strong>1.2.</strong> The property is let out for residential purposes only and shall not be used for any commercial, illegal, or unauthorized activities.</p>
+    </div>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">2. Term of Tenancy</div>
+    <div class="clause">
+      <p><strong>2.1.</strong> This Agreement shall commence on <strong>{{createdAt}}</strong> and shall continue until terminated in accordance with the terms herein.</p>
+      <p><strong>2.2.</strong> The tenancy may be terminated by either party by giving a written notice of at least thirty (30) days to the other party, unless otherwise specified by local laws.</p>
+    </div>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">3. Rent and Payment Terms</div>
+    <div class="clause">
+      <p><strong>3.1.</strong> The Tenant agrees to pay a monthly rent of <strong>₹{{tenancy.rent.amount}} ({{tenancy.rent.amountInWords}} Only)</strong> to the Landlord.</p>
+      <p><strong>3.2.</strong> The rent shall be paid on or before the <strong>{{#if tenancy.rent.dueDateDay}}{{tenancy.rent.dueDateDay}}{{else}}1st{{/if}} day</strong> of each month, in advance, through the payment method agreed upon by both parties.</p>
+      <p><strong>3.3.</strong> The rent payment cycle is: <strong>{{tenancy.rent.cycle}}</strong>.</p>
+      {{#if tenancy.rent.utilitiesIncluded}}
+      <p><strong>3.4.</strong> The rent amount includes utilities (electricity, water, maintenance, etc.).</p>
+      {{else}}
+      <p><strong>3.4.</strong> The rent amount does not include utilities. The Tenant shall be responsible for payment of all utility bills including electricity, water, gas, internet, and other services consumed during the tenancy period.</p>
+      {{/if}}
+      <p><strong>3.5.</strong> In case of delay in payment of rent beyond the due date, the Tenant shall be liable to pay interest at the rate of 2% per month on the overdue amount, unless otherwise specified by local laws.</p>
+    </div>
+  </div>
+
+  {{#if tenancy.deposit.amount}}
+  <div class="section no-break">
+    <div class="section-title">4. Security Deposit</div>
+    <div class="clause">
+      <p><strong>4.1.</strong> The Tenant has paid a security deposit of <strong>₹{{tenancy.deposit.amount}} ({{tenancy.deposit.amountInWords}} Only)</strong> to the Landlord as security for the due performance of the terms and conditions of this Agreement.</p>
+      <p><strong>4.2.</strong> The security deposit shall be refundable at the time of termination of this Agreement, subject to deduction of any outstanding dues, damages, or repairs required due to the Tenant's negligence or breach of this Agreement.</p>
+      <p><strong>4.3.</strong> The security deposit shall not carry any interest and shall be refunded within thirty (30) days of the Tenant vacating the premises, after deducting any legitimate charges.</p>
+      <p><strong>4.4.</strong> Current deposit status: <strong>{{tenancy.deposit.status}}</strong></p>
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="section no-break">
+    <div class="section-title">5. Maintenance and Repairs</div>
+    <div class="clause">
+      <p><strong>5.1.</strong> The Tenant shall maintain the property in good condition and shall be responsible for minor repairs and maintenance.</p>
+      <p><strong>5.2.</strong> The Landlord shall be responsible for structural repairs and major maintenance issues not caused by the Tenant's negligence.</p>
+      <p><strong>5.3.</strong> The Tenant shall not make any structural alterations or modifications to the property without the prior written consent of the Landlord.</p>
+    </div>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">6. Use of Property</div>
+    <div class="clause">
+      <p><strong>6.1.</strong> The Tenant shall use the property solely for residential purposes and shall not use it for any commercial, illegal, or unauthorized activities.</p>
+      <p><strong>6.2.</strong> The Tenant shall not sublet, assign, or transfer the property or any part thereof to any third party without the prior written consent of the Landlord.</p>
+      <p><strong>6.3.</strong> The Tenant shall comply with all applicable laws, rules, and regulations of the local authorities and shall not cause any nuisance to the neighbors.</p>
+    </div>
+  </div>
+
+  {{#if clauses}}
+  <div class="section no-break">
+    <div class="section-title">7. Additional Terms and Conditions</div>
+    {{#each clauses}}
+    <div class="clause">
+      <span class="clause-number"><strong>{{#if this.key}}{{this.key}}.{{else}}7.{{@index}}.{{/if}}</strong></span>
+      <span class="clause-text">{{this.text}}</span>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <div class="section no-break">
+    <div class="section-title">{{#if clauses}}8.{{else}}7.{{/if}} Default and Termination</div>
+    <div class="clause">
+      <p><strong>{{#if clauses}}8.1{{else}}7.1{{/if}}.</strong> If the Tenant fails to pay the rent for two consecutive months or breaches any term of this Agreement, the Landlord may terminate this Agreement by giving appropriate notice as per applicable laws.</p>
+      <p><strong>{{#if clauses}}8.2{{else}}7.2{{/if}}.</strong> Upon termination, the Tenant shall vacate the premises and return possession to the Landlord in the same condition as received, subject to normal wear and tear.</p>
+      <p><strong>{{#if clauses}}8.3{{else}}7.3{{/if}}.</strong> The Tenant shall remove all personal belongings upon vacating the premises. Any items left behind may be disposed of by the Landlord after giving reasonable notice.</p>
+    </div>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">{{#if clauses}}9.{{else}}8.{{/if}} Governing Law and Jurisdiction</div>
+    <div class="clause">
+      <p><strong>{{#if clauses}}9.1{{else}}8.1{{/if}}.</strong> This Agreement shall be governed by and construed in accordance with the laws of India and the local tenancy laws applicable in the jurisdiction where the property is located.</p>
+      <p><strong>{{#if clauses}}9.2{{else}}8.2{{/if}}.</strong> Any disputes arising out of or in connection with this Agreement shall be subject to the exclusive jurisdiction of the courts in the city where the property is located.</p>
+    </div>
+  </div>
+
+  <div class="section no-break">
+    <div class="section-title">{{#if clauses}}10.{{else}}9.{{/if}} General Provisions</div>
+    <div class="clause">
+      <p><strong>{{#if clauses}}10.1{{else}}9.1{{/if}}.</strong> This Agreement constitutes the entire agreement between the parties and supersedes all prior discussions, negotiations, and agreements.</p>
+      <p><strong>{{#if clauses}}10.2{{else}}9.2{{/if}}.</strong> Any modification or amendment to this Agreement shall be in writing and signed by both parties.</p>
+      <p><strong>{{#if clauses}}10.3{{else}}9.3{{/if}}.</strong> If any provision of this Agreement is found to be invalid or unenforceable, the remaining provisions shall continue to be valid and enforceable.</p>
+      <p><strong>{{#if clauses}}10.4{{else}}9.4{{/if}}.</strong> This Agreement is executed in duplicate, with each party retaining one original copy.</p>
+    </div>
+  </div>
+
+  <div class="legal-notice no-break">
+    <p><strong>IMPORTANT NOTICE:</strong> This Agreement is a legally binding document. Both parties are advised to read and understand all terms before signing. It is recommended to consult with a legal advisor if any terms are unclear. This Agreement is subject to the applicable tenancy laws and regulations of India and the local jurisdiction.</p>
+  </div>
+
+  <div class="signature-section no-break">
+    <div class="signature-grid">
+      <div class="signature-box">
+        <div class="signature-line">
+          <div class="signature-name">{{tenancy.owner.firstName}} {{tenancy.owner.lastName}}</div>
+          <div class="signature-role">LANDLORD / OWNER</div>
+          <div class="signature-date">Date: _______________</div>
+        </div>
+      </div>
+
+      <div class="signature-box">
+        <div class="signature-line">
+          <div class="signature-name">{{tenancy.tenant.firstName}} {{tenancy.tenant.lastName}}</div>
+          <div class="signature-role">TENANT</div>
+          <div class="signature-date">Date: _______________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="witness-section no-break">
+    <div class="subsection-title" style="text-align: center; margin-bottom: 20px;">WITNESSES (Optional)</div>
+    <div class="signature-grid">
+      <div class="signature-box">
+        <div class="witness-line">
+          <div class="witness-label">Witness 1</div>
+          <div class="signature-name" style="margin-top: 10px;">_________________________</div>
+          <div class="signature-date">Name & Signature</div>
+        </div>
+      </div>
+
+      <div class="signature-box">
+        <div class="witness-line">
+          <div class="witness-label">Witness 2</div>
+          <div class="signature-name" style="margin-top: 10px;">_________________________</div>
+          <div class="signature-date">Name & Signature</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>Agreement Version:</strong> {{version}} | <strong>Generated on:</strong> {{createdAt}}</p>
+    <p style="margin-top: 8px;">This document has been generated electronically and is legally binding when signed by both parties.</p>
+    <p style="margin-top: 5px; font-size: 8pt;">© {{createdAt}} - This agreement is confidential and intended solely for the parties named herein.</p>
+  </div>
+</body>
+</html>

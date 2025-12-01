@@ -30,8 +30,8 @@ class AuthService {
     }
 
     return jwt.sign(payload, jwtSecret, {
-      expiresIn: jwtExpiresIn,
-    });
+      expiresIn: jwtExpiresIn || '7d',
+    } as jwt.SignOptions);
   }
 
   /**
@@ -43,7 +43,7 @@ class AuthService {
 
     // Generate token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as { toString: () => string }).toString(),
       email: user.email,
       role: user.role,
     });
@@ -94,11 +94,13 @@ class AuthService {
 
     // Remove password from user object
     const userObject = user.toObject();
-    delete userObject.password;
+    if ('password' in userObject) {
+      delete (userObject as { password?: string }).password;
+    }
 
     // Generate token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as { toString: () => string }).toString(),
       email: user.email,
       role: user.role,
     });

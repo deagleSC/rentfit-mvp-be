@@ -155,4 +155,3 @@ router.put('/cities/:id', ...updateCityValidator, handleValidationErrors, update
 router.delete('/cities/:id', ...deleteCityValidator, handleValidationErrors, deleteCity);
 
 export default router;
-

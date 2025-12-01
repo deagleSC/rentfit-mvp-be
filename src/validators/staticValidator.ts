@@ -9,17 +9,25 @@ export const createCountryValidator: ValidationChain[] = [
     .withMessage('Request body must be an array')
     .notEmpty()
     .withMessage('Array cannot be empty')
-    .custom((value) => {
+    .custom(value => {
       // Validate each item in the array
       for (let i = 0; i < value.length; i++) {
         const item = value[i];
-        if (!item.name || typeof item.name !== 'string' || item.name.trim().length < 2 || item.name.trim().length > 100) {
+        if (
+          !item.name ||
+          typeof item.name !== 'string' ||
+          item.name.trim().length < 2 ||
+          item.name.trim().length > 100
+        ) {
           throw new Error(`Item ${i}: Country name must be between 2 and 100 characters`);
         }
         if (!item.code || typeof item.code !== 'string' || !/^[A-Z]{2}$/.test(item.code.trim())) {
           throw new Error(`Item ${i}: Country code must be a 2-letter uppercase ISO code`);
         }
-        if (item.phoneCode && (typeof item.phoneCode !== 'string' || item.phoneCode.trim().length > 10)) {
+        if (
+          item.phoneCode &&
+          (typeof item.phoneCode !== 'string' || item.phoneCode.trim().length > 10)
+        ) {
           throw new Error(`Item ${i}: Phone code must be less than 10 characters`);
         }
         if (item.isActive !== undefined && typeof item.isActive !== 'boolean') {
@@ -52,11 +60,7 @@ export const updateCountryValidator: ValidationChain[] = [
     .trim()
     .isLength({ max: 10 })
     .withMessage('Phone code must be less than 10 characters'),
-  body('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  body('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
 ];
 
 // Validation for getting a country by ID
@@ -71,21 +75,13 @@ export const deleteCountryValidator: ValidationChain[] = [
 
 // Validation for query parameters (pagination, filtering)
 export const getCountriesValidator: ValidationChain[] = [
-  query('page')
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer')
-    .toInt(),
+  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer').toInt(),
   query('limit')
     .optional()
     .isInt({ min: 1, max: 500 })
     .withMessage('Limit must be between 1 and 500')
     .toInt(),
-  query('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  query('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
   query('search')
     .optional()
     .trim()
@@ -102,17 +98,26 @@ export const createStateValidator: ValidationChain[] = [
     .withMessage('Request body must be an array')
     .notEmpty()
     .withMessage('Array cannot be empty')
-    .custom((value) => {
+    .custom(value => {
       // Validate each item in the array
       for (let i = 0; i < value.length; i++) {
         const item = value[i];
-        if (!item.name || typeof item.name !== 'string' || item.name.trim().length < 2 || item.name.trim().length > 100) {
+        if (
+          !item.name ||
+          typeof item.name !== 'string' ||
+          item.name.trim().length < 2 ||
+          item.name.trim().length > 100
+        ) {
           throw new Error(`Item ${i}: State name must be between 2 and 100 characters`);
         }
         if (item.code && (typeof item.code !== 'string' || item.code.trim().length > 10)) {
           throw new Error(`Item ${i}: State code must be less than 10 characters`);
         }
-        if (!item.countryId || typeof item.countryId !== 'string' || !/^[0-9a-fA-F]{24}$/.test(item.countryId)) {
+        if (
+          !item.countryId ||
+          typeof item.countryId !== 'string' ||
+          !/^[0-9a-fA-F]{24}$/.test(item.countryId)
+        ) {
           throw new Error(`Item ${i}: Please provide a valid country ID`);
         }
         if (item.isActive !== undefined && typeof item.isActive !== 'boolean') {
@@ -138,15 +143,8 @@ export const updateStateValidator: ValidationChain[] = [
     .trim()
     .isLength({ max: 10 })
     .withMessage('State code must be less than 10 characters'),
-  body('countryId')
-    .optional()
-    .isMongoId()
-    .withMessage('Please provide a valid country ID'),
-  body('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  body('countryId').optional().isMongoId().withMessage('Please provide a valid country ID'),
+  body('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
 ];
 
 // Validation for getting a state by ID
@@ -161,25 +159,14 @@ export const deleteStateValidator: ValidationChain[] = [
 
 // Validation for query parameters (pagination, filtering)
 export const getStatesValidator: ValidationChain[] = [
-  query('page')
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer')
-    .toInt(),
+  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer').toInt(),
   query('limit')
     .optional()
     .isInt({ min: 1, max: 500 })
     .withMessage('Limit must be between 1 and 500')
     .toInt(),
-  query('countryId')
-    .optional()
-    .isMongoId()
-    .withMessage('Please provide a valid country ID'),
-  query('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  query('countryId').optional().isMongoId().withMessage('Please provide a valid country ID'),
+  query('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
   query('search')
     .optional()
     .trim()
@@ -196,14 +183,23 @@ export const createCityValidator: ValidationChain[] = [
     .withMessage('Request body must be an array')
     .notEmpty()
     .withMessage('Array cannot be empty')
-    .custom((value) => {
+    .custom(value => {
       // Validate each item in the array
       for (let i = 0; i < value.length; i++) {
         const item = value[i];
-        if (!item.name || typeof item.name !== 'string' || item.name.trim().length < 2 || item.name.trim().length > 100) {
+        if (
+          !item.name ||
+          typeof item.name !== 'string' ||
+          item.name.trim().length < 2 ||
+          item.name.trim().length > 100
+        ) {
           throw new Error(`Item ${i}: City name must be between 2 and 100 characters`);
         }
-        if (!item.stateId || typeof item.stateId !== 'string' || !/^[0-9a-fA-F]{24}$/.test(item.stateId)) {
+        if (
+          !item.stateId ||
+          typeof item.stateId !== 'string' ||
+          !/^[0-9a-fA-F]{24}$/.test(item.stateId)
+        ) {
           throw new Error(`Item ${i}: Please provide a valid state ID`);
         }
         if (item.isActive !== undefined && typeof item.isActive !== 'boolean') {
@@ -224,15 +220,8 @@ export const updateCityValidator: ValidationChain[] = [
     .withMessage('City name cannot be empty')
     .isLength({ min: 2, max: 100 })
     .withMessage('City name must be between 2 and 100 characters'),
-  body('stateId')
-    .optional()
-    .isMongoId()
-    .withMessage('Please provide a valid state ID'),
-  body('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  body('stateId').optional().isMongoId().withMessage('Please provide a valid state ID'),
+  body('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
 ];
 
 // Validation for getting a city by ID
@@ -247,29 +236,17 @@ export const deleteCityValidator: ValidationChain[] = [
 
 // Validation for query parameters (pagination, filtering)
 export const getCitiesValidator: ValidationChain[] = [
-  query('page')
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage('Page must be a positive integer')
-    .toInt(),
+  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer').toInt(),
   query('limit')
     .optional()
     .isInt({ min: 1, max: 500 })
     .withMessage('Limit must be between 1 and 500')
     .toInt(),
-  query('stateId')
-    .optional()
-    .isMongoId()
-    .withMessage('Please provide a valid state ID'),
-  query('isActive')
-    .optional()
-    .isBoolean()
-    .withMessage('isActive must be a boolean')
-    .toBoolean(),
+  query('stateId').optional().isMongoId().withMessage('Please provide a valid state ID'),
+  query('isActive').optional().isBoolean().withMessage('isActive must be a boolean').toBoolean(),
   query('search')
     .optional()
     .trim()
     .isLength({ min: 1, max: 100 })
     .withMessage('Search term must be between 1 and 100 characters'),
 ];
-

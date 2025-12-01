@@ -34,7 +34,7 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
   }
 
   const result = await authService.refreshToken(req.user.id);
-  ApiResponseHandler.success(res, result, 'Token refreshed successfully');
+  return ApiResponseHandler.success(res, result, 'Token refreshed successfully');
 });
 
 /**
@@ -48,7 +48,7 @@ export const getCurrentUser = asyncHandler(async (req: Request, res: Response) =
   }
 
   const user = await authService.getCurrentUser(req.user.id);
-  ApiResponseHandler.success(res, { user });
+  return ApiResponseHandler.success(res, { user });
 });
 
 /**
@@ -63,5 +63,5 @@ export const changePassword = asyncHandler(async (req: Request, res: Response) =
 
   const { currentPassword, newPassword } = req.body;
   await authService.changePassword(req.user.id, currentPassword, newPassword);
-  ApiResponseHandler.success(res, null, 'Password changed successfully');
+  return ApiResponseHandler.success(res, null, 'Password changed successfully');
 });
