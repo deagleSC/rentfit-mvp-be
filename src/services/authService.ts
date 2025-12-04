@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User, { IUser } from '../models/User';
 import userService, { CreateUserData } from './userService';
 import { JWTPayload } from '../middleware/auth';
@@ -30,8 +31,8 @@ class AuthService {
     }
 
     return jwt.sign(payload, jwtSecret, {
-      expiresIn: jwtExpiresIn,
-    });
+      expiresIn: jwtExpiresIn || '7d',
+    } as jwt.SignOptions);
   }
 
   /**
@@ -43,7 +44,7 @@ class AuthService {
 
     // Generate token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as { toString: () => string }).toString(),
       email: user.email,
       role: user.role,
     });
@@ -94,11 +95,13 @@ class AuthService {
 
     // Remove password from user object
     const userObject = user.toObject();
-    delete userObject.password;
+    if ('password' in userObject) {
+      delete (userObject as { password?: string }).password;
+    }
 
     // Generate token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as { toString: () => string }).toString(),
       email: user.email,
       role: user.role,
     });
@@ -129,7 +132,7 @@ class AuthService {
 
     // Generate new token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as mongoose.Types.ObjectId).toString(),
       email: user.email,
       role: user.role,
     });

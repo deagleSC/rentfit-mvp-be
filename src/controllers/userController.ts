@@ -5,7 +5,7 @@ import { ApiResponseHandler } from '../utils/response';
 
 /**
  * @route   POST /api/users
- * @desc    Create a new user
+ * @desc    Create a new user (supports tenant and landlord roles)
  * @access  Public (for now, can be changed to private with auth)
  */
 export const createUser = asyncHandler(async (req: Request, res: Response) => {

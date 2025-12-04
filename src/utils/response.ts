@@ -136,6 +136,13 @@ export class ApiResponseHandler {
   }
 
   /**
+   * Send bad request error response (400)
+   */
+  static badRequest(res: Response, message: string = 'Bad request'): Response<ApiResponse> {
+    return this.error(res, message, 400);
+  }
+
+  /**
    * Send unauthorized error response (401)
    */
   static unauthorized(
