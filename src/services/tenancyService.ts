@@ -117,7 +117,7 @@ class TenancyService {
       }
 
       agreementPayload = {
-        agreementId: (agreement._id as mongoose.Types.ObjectId).toString(),
+        agreementId: agreement._id as any,
         pdfUrl: agreement.pdfUrl,
         version: agreement.version,
         signedAt: agreement.lastSignedAt,
@@ -130,6 +130,15 @@ class TenancyService {
       ...(agreementPayload && { agreement: agreementPayload }),
     });
     await tenancy.save();
+
+    // Update the agreement's tenancyId if it wasn't already set
+    if (tenancyData.agreementId && tenancy._id) {
+      const agreement = await Agreement.findById(tenancyData.agreementId);
+      if (agreement && !agreement.tenancyId) {
+        agreement.tenancyId = tenancy._id as any;
+        await agreement.save();
+      }
+    }
     return tenancy.populate([
       { path: 'unitId', select: 'title address' },
       { path: 'ownerId', select: 'firstName lastName email' },
@@ -277,10 +286,10 @@ class TenancyService {
       // Convert uploaderId strings to ObjectIds and ensure timestamp is set
       const evidenceWithObjectIds = updateData.evidence.map(ev => ({
         ...ev,
-        uploaderId: new mongoose.Types.ObjectId(ev.uploaderId),
+        uploaderId: new mongoose.Types.ObjectId(ev.uploaderId) as any,
         timestamp: ev.timestamp || new Date(),
       }));
-      tenancy.evidence.push(...evidenceWithObjectIds);
+      tenancy.evidence.push(...(evidenceWithObjectIds as any));
       delete updateData.evidence;
     }
 

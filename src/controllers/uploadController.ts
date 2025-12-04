@@ -29,7 +29,7 @@ export const uploadFile = asyncHandler(async (req: Request, res: Response) => {
 
   const result = await uploadToCloudinary(req.file.buffer, uploadOptions);
 
-  ApiResponseHandler.success(
+  return ApiResponseHandler.success(
     res,
     {
       file: {
@@ -61,11 +61,13 @@ export const uploadMultipleFiles = asyncHandler(async (req: Request, res: Respon
   const tags = req.body.tags ? (req.body.tags as string).split(',') : undefined;
 
   // Convert files to buffers - ensure all are Express.Multer.File
-  const buffers: Buffer[] = files.map(file => {
+  const buffers: Buffer[] = files.map((file): Buffer => {
     if (Array.isArray(file)) {
       throw new Error('Unexpected file array structure');
     }
-    return file.buffer;
+    // Type assertion: file is Express.Multer.File at this point
+    const multerFile = file as Express.Multer.File;
+    return multerFile.buffer;
   });
 
   // Determine resource type from first file
@@ -80,7 +82,7 @@ export const uploadMultipleFiles = asyncHandler(async (req: Request, res: Respon
 
   const results = await uploadMultipleToCloudinary(buffers, uploadOptions);
 
-  ApiResponseHandler.success(
+  return ApiResponseHandler.success(
     res,
     {
       files: results.map(result => ({
@@ -122,7 +124,7 @@ export const uploadImageFile = asyncHandler(async (req: Request, res: Response) 
 
   const result = await uploadToCloudinary(req.file.buffer, uploadOptions);
 
-  ApiResponseHandler.success(
+  return ApiResponseHandler.success(
     res,
     {
       image: {
@@ -159,7 +161,7 @@ export const uploadVideoFile = asyncHandler(async (req: Request, res: Response) 
 
   const result = await uploadToCloudinary(req.file.buffer, uploadOptions);
 
-  ApiResponseHandler.success(
+  return ApiResponseHandler.success(
     res,
     {
       video: {
@@ -196,7 +198,7 @@ export const uploadDocumentFile = asyncHandler(async (req: Request, res: Respons
 
   const result = await uploadToCloudinary(req.file.buffer, uploadOptions);
 
-  ApiResponseHandler.success(
+  return ApiResponseHandler.success(
     res,
     {
       document: {

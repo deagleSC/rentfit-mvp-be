@@ -1,6 +1,6 @@
 import { Schema, model, Document } from 'mongoose';
 
-export type TenancyStatus = 'active' | 'terminated' | 'pendingRenewal';
+export type TenancyStatus = 'upcoming' | 'active' | 'terminated' | 'pendingRenewal';
 
 export interface IPayment {
   paymentId?: string;
@@ -101,7 +101,11 @@ const TenancySchema = new Schema<ITenancy>(
     payments: { type: [PaymentSchema], default: [] },
     evidence: { type: [EvidenceSchema], default: [] },
 
-    status: { type: String, enum: ['active', 'terminated', 'pendingRenewal'], default: 'active' },
+    status: {
+      type: String,
+      enum: ['upcoming', 'active', 'terminated', 'pendingRenewal'],
+      default: 'upcoming',
+    },
   },
   { timestamps: true }
 );

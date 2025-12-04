@@ -617,6 +617,33 @@ class AgreementService {
     // Otherwise, keep it as "pending_signature"
     if (signedCount >= 2) {
       agreement.status = 'signed';
+
+      // Update the corresponding tenancy status to 'active' if it exists
+      let tenancyIdToUpdate: string | null = null;
+
+      // First, try to get tenancyId from the agreement
+      if (agreement.tenancyId) {
+        tenancyIdToUpdate = agreement.tenancyId.toString();
+      } else {
+        // If agreement doesn't have tenancyId, find tenancy by agreementId
+        const agreementId = (agreement._id as mongoose.Types.ObjectId).toString();
+        const tenancy = await Tenancy.findOne({
+          'agreement.agreementId': agreementId,
+        });
+        if (tenancy) {
+          tenancyIdToUpdate = (tenancy._id as mongoose.Types.ObjectId).toString();
+        }
+      }
+
+      // Update tenancy status if we found a tenancy
+      if (tenancyIdToUpdate) {
+        try {
+          await Tenancy.findByIdAndUpdate(tenancyIdToUpdate, { status: 'active' }, { new: true });
+        } catch (error) {
+          // Log error but don't fail the agreement signing
+          console.error('Failed to update tenancy status:', error);
+        }
+      }
     } else {
       // Ensure status is pending_signature if less than 2 signatures
       agreement.status = 'pending_signature';

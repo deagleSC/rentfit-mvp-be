@@ -14,21 +14,26 @@ import multer from 'multer';
 const router = Router();
 
 // Multer error handler middleware
-const handleMulterError = (err: any, _req: Request, res: Response, next: NextFunction) => {
+const handleMulterError = (err: any, _req: Request, res: Response, next: NextFunction): void => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return ApiResponseHandler.badRequest(res, 'File size too large. Maximum size is 10MB');
+      ApiResponseHandler.badRequest(res, 'File size too large. Maximum size is 10MB');
+      return;
     }
     if (err.code === 'LIMIT_FILE_COUNT') {
-      return ApiResponseHandler.badRequest(res, 'Too many files. Maximum is 10 files');
+      ApiResponseHandler.badRequest(res, 'Too many files. Maximum is 10 files');
+      return;
     }
     if (err.code === 'LIMIT_UNEXPECTED_FILE') {
-      return ApiResponseHandler.badRequest(res, 'Unexpected file field');
+      ApiResponseHandler.badRequest(res, 'Unexpected file field');
+      return;
     }
-    return ApiResponseHandler.badRequest(res, `Upload error: ${err.message}`);
+    ApiResponseHandler.badRequest(res, `Upload error: ${err.message}`);
+    return;
   }
   if (err) {
-    return ApiResponseHandler.badRequest(res, err.message || 'File upload error');
+    ApiResponseHandler.badRequest(res, err.message || 'File upload error');
+    return;
   }
   next();
 };

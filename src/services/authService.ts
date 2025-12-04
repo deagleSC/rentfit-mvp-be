@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User, { IUser } from '../models/User';
 import userService, { CreateUserData } from './userService';
 import { JWTPayload } from '../middleware/auth';
@@ -131,7 +132,7 @@ class AuthService {
 
     // Generate new token
     const token = this.generateToken({
-      id: user._id.toString(),
+      id: (user._id as mongoose.Types.ObjectId).toString(),
       email: user.email,
       role: user.role,
     });
